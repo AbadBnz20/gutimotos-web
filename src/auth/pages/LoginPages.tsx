@@ -5,6 +5,7 @@ import { FaTiktok, FaInstagram, FaFacebookF, FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../store/auth.store";
+import imgLogo from "../../assets/icono.png";
 
 export const LoginPages = () => {
   const [isposting, setIsposting] = useState(false);
@@ -75,8 +76,8 @@ export const LoginPages = () => {
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="https://i0.wp.com/haojuemotos.pe/wp-content/uploads/2021/12/consejos-para-viaje-en-moto-Haojue-Motos-Peru.jpg?w=1140&ssl=1"
-              alt="Image"
+              src={imgLogo}
+              alt="logo"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>
