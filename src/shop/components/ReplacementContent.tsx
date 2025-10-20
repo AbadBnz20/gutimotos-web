@@ -33,16 +33,19 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
   return (
     <>
       <section className="py-12 px-4 lg:px-8">
-        <div className="mb-8 lg:hidden">
-          <SearchButton />
-        </div>
+        
         <div className="container mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <h2 className="text-3xl font-light">Repuestos</h2>
-              <span className="text-muted-foreground">
-                ({replacements.length} repuestos)
-              </span>
+              <h4 className="text-3xl font-light">Repuestos</h4>
+              {
+                /**
+                <span className="text-muted-foreground">
+                  ({replacements.length} repuestos)
+                </span>
+                 */
+              }
+              
             </div>
             <div className="w-90 hidden lg:flex">
               <SearchButton />
@@ -78,6 +81,11 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
                 </Button>
               </div>
             </div>
+            
+          </div>
+          {/* Oculta Search Button para dispositivos con pantalla lg */}
+          <div className="mb-8 lg:hidden">
+            <SearchButton />
           </div>
 
           <div className="flex gap-8">
@@ -121,8 +129,8 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
                 <div
                   className={
                     viewMode === "grid"
-                      ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6"
-                      : "space-y-4 grid grid-cols-1 sm:grid-cols-2"
+                      ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-5"
+                      : "space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-5"
                   }
                 >
                   {replacements.map((product) => (
@@ -184,7 +192,7 @@ export const SearchButton = () => {
       <div className="relative w-full">
         <IoIosSearch className="absolute top-1/2 left-3 -translate-y-1/2" />
         <Input
-          placeholder="Buscar repuestos..."
+          placeholder="Buscar por marca descripción o código"
           className="pl-9 h-9 bg-white"
           onChange={handleSearchChanged}
           value={searchInput}
