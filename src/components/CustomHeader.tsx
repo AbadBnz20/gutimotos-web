@@ -30,6 +30,7 @@ export const CustomHeader = () => {
   const [showFilters, setShowFilters] = useState(false);
   const { articles } = useQuotesStore();
   const hanleClose = async () => {
+    
     setShowFilters(false);
   };
   return (
