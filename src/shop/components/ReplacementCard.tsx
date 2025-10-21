@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router";
 import { useProductStore } from "../store/product.store";
 import clsx from "clsx";
-import { ContentImg } from "./ContentImg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface Props {
