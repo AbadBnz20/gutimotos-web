@@ -33,6 +33,7 @@ export const ProductCard = ({
       return navigate("/auth/login");
     }
     // console.log(id)
+    
     setProduct(id.toString());
     setOpenDialog(true);
   };
