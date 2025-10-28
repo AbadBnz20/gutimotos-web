@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { IoIosSearch, IoMdGrid } from "react-icons/io";
@@ -10,6 +10,7 @@ import type { Replacement } from "../interfaces/Replacement.response";
 import { ReplacementCard } from "./ReplacementCard";
 import { DialogReplace } from "./DialogReplace";
 import { Input } from "@/components/ui/input";
+import { IoCloseOutline } from "react-icons/io5";
 interface Props {
   replacements: Replacement[];
   isloading: boolean;
@@ -17,6 +18,8 @@ interface Props {
 export const ReplacementContent = ({ replacements, isloading }: Props) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [product_description, setProduct_description] = useState("");
+  const [detail, setDetail] = useState("");
+
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
@@ -93,16 +96,22 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
 
             {/* Mobile Filters */}
             {showFilters && (
-              <div className="fixed inset-0 z-50 bg-black/60">
-                <div className="fixed w-80 inset-0 z-50 bg-background p-4 lg:hidden overflow-y-auto">
-                  <div className="flex items-center justify-between mb-6">
+              <div
+                className="fixed inset-0 z-50 bg-black/60"
+                onClick={() => setShowFilters(false)} 
+              >
+                <div
+                  className="fixed w-80 overflow-y-auto inset-0 z-50 bg-background pr-4 pl-4 lg:hidden"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center justify-between mb-6 sticky top-0 left-0 right-0 bg-background h-15">
                     <h3 className="text-lg font-semibold">Filtros</h3>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowFilters(false)}
                     >
-                      cerrar
+                    <IoCloseOutline className="h-4 w-4" />
                     </Button>
                   </div>
                   <FilterSidebar replacement={true} type="sparepart" />
@@ -137,6 +146,7 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
                       calculated_price={product.calculated_price}
                       setOpenDialog={setOpenDialog}
                       setProduct_description={setProduct_description}
+                      setdetail={setDetail}
                     />
                   ))}
                 </div>
@@ -149,6 +159,7 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
           open={openDialog}
           setOpen={setOpenDialog}
           product_description={product_description}
+          detail={detail}
         />
       </section>
     </>
@@ -157,10 +168,24 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
 
 export const SearchButton = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const searchValue = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(searchValue);
   const handleSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    searchParams.set("search", e.target.value);
-    setSearchParams(searchParams);
+    const value = e.target.value;
+    setSearchInput(value);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      searchParams.set("search", value);
+      setSearchParams(searchParams);
+    }, 600);
   };
+
+  const handleClear = async ()=>{
+    setSearchInput("");
+    searchParams.delete("search");
+    setSearchParams(searchParams);
+  }
 
   return (
     <div className="flex w-full items-center space-x-2">
@@ -170,7 +195,12 @@ export const SearchButton = () => {
           placeholder="Buscar por marca descripción o código"
           className="pl-9 h-9 bg-white"
           onChange={handleSearchChanged}
+          value={searchInput}
         />
+        {
+          searchInput.length > 0 && <IoCloseOutline className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer" onClick={handleClear}/>
+        }
+
       </div>
     </div>
   );

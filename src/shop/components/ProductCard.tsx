@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router";
 import { useProductStore } from "../store/product.store";
-import { ContentImg } from "./ContentImg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 interface Props {
   id: number;
   motorcycle_file: number;
@@ -33,6 +33,7 @@ export const ProductCard = ({
       return navigate("/auth/login");
     }
     // console.log(id)
+    
     setProduct(id.toString());
     setOpenDialog(true);
   };
@@ -41,17 +42,17 @@ export const ProductCard = ({
     <Card className="group rounded-md border shadow-none product-card-hover cursor-pointer h-full">
       <CardContent className={`p-0 h-full ${viewMode === "list" && "flex flex-row"} `}>
         <div className="relative aspect-square overflow-hidden bg-muted rounded-md  border m-2">
-          {/* <LazyLoadImage
+          <LazyLoadImage
             src={photo} 
             className={`${viewMode === "list" ? "w-50 h-50" : "w-full h-full"} object-cover transition-transform duration-300 group-hover:scale-105`}
-          /> */}
+          />
 
-          <ContentImg
+          {/* <ContentImg
             source={photo}
             height={`${
               viewMode === "list" ? "w-50 h-50" : "w-full h-full"
             } object-cover transition-transform duration-300 group-hover:scale-105`}
-          />
+          /> */}
           <div className="image-overlay " />
         </div>
 

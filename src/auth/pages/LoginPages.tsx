@@ -6,6 +6,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../store/auth.store";
 import imgLogo from "../../assets/gutimotos.svg";
+import { Spinner } from "@/components/ui/spinner";
 
 export const LoginPages = () => {
   const [isposting, setIsposting] = useState(false);
@@ -25,22 +26,32 @@ export const LoginPages = () => {
   };
 
   const redirectToExternal = (url: string) => {
-  window.open(url, "_blank", "noopener,noreferrer");
-};
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   return (
-    <div className={"flex flex-col gap-6"}>
-      <Card className="overflow-hidden p-0  ">
-        <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
-            <div className="flex flex-col gap-6 min-h-[400px]  justify-between">
-              <div className="flex flex-col items-center text-center">
-                <CustomLogo />
+    <>
+      {isposting && (
+        <div className="fixed inset-0 z-50 bg-black/60">
+          <div className="w-full h-screen flex justify-center items-center">
+            <Spinner className="size-8 text-[#bf2829]" />
+          </div>
+        </div>
+      )}
+      <div className={"flex flex-col gap-6"}>
+        <Card className="overflow-hidden p-0  ">
+          <CardContent className="grid p-0 md:grid-cols-2">
+            <form className="p-6 md:p-8">
+              <div className="flex flex-col gap-6 min-h-[400px]  justify-between">
+                <div className="flex flex-col items-center text-center">
+                  <CustomLogo />
 
-                <h2 className="text-sm text-muted-foreground">
-                  En Tarija, somos tu concesionaria de confianza con las mejores marcas de motocicletas, repuestos, piezas y accesorios. Contamos con soporte y servicio técnico especializado para brindarte la mejor experiencia, <span className='text-black'>nuestra prioridad es tu satisfacción</span>.
-                </h2>
-              </div>
+                  <h2 className="text-sm text-muted-foreground">
+                    En Tarija, somos tu concesionaria de confianza con las mejores marcas de
+                    motocicletas, repuestos, piezas y accesorios. Contamos con
+                    soporte y servicio técnico especializado para brindarte la mejor experiencia, <span className='text-black'>nuestra prioridad es tu satisfacción</span>.
+                  </h2>
+                </div>
 
               <Button
                 onClick={handlelogin}
@@ -59,15 +70,15 @@ export const LoginPages = () => {
                 <div className="grid grid-cols-3 gap-4 mt-5">
                   <Button variant="outline" className="w-full" onClick={() => redirectToExternal("https://www.facebook.com/share/1AE1zW2o3q/")}>
                     <FaFacebookF color="#bf2829" />
-                    <span className="sr-only">Facebook</span>
+                    <span className="sr-only">Login facebook</span>
                   </Button>
                   <Button variant="outline" className="w-full" onClick={() => redirectToExternal("https://www.instagram.com/gutimotos.tj?utm_source=qr&igsh=MXJvcTI2d2dnc2p1dg==")}>
                     <FaInstagram color="#bf2829" />
-                    <span className="sr-only">Instagram</span>
+                    <span className="sr-only">Login with Instagram</span>
                   </Button>
                   <Button variant="outline" className="w-full" onClick={() => redirectToExternal("https://www.tiktok.com/@gutimotos_tj?is_from_webapp=1&sender_device=pc")}>
                     <FaTiktok color="#bf2829" />
-                    <span className="sr-only">Tik Tok</span>
+                    <span className="sr-only">Login with tiktok</span>
                   </Button>
                  
                 </div>
@@ -84,8 +95,9 @@ export const LoginPages = () => {
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        Bienvenido a nuestra aplicación
+        Bienvenido a nuestra plataforma
       </div>
     </div>
+    </>
   );
 };
