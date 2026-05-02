@@ -27,10 +27,11 @@ export const ContentImagesMobile = ({ photo }: Props) => {
     <div className="block md:hidden">
       <Carousel className="w-full max-w-xs">
         <CarouselContent>
-          {photo.map((img) => (
+          {photo.map((img,index) => (
             <CarouselItem key={img.id}>
               <ContentImg
-                source={img.photo}
+                images={photo.map((p) => p.photo)}
+                initialIndex={index}
                 height={`w-full ${photo.length > 2 ? "h-[145px]" : "h-[300px]"}`}
               />
             </CarouselItem>
@@ -50,12 +51,12 @@ export const ContentImagesDesktop = ({ photo }: Props) => {
         <div
           className={clsx(
             "col-span-3",
-            photo.length > 1 ? "md:col-span-2" : "md:col-span-3"
+            photo.length > 1 ? "md:col-span-2" : "md:col-span-3",
           )}
         >
           {photo.length > 0 && (
             <ContentImg
-              source={photo[0].photo}
+              images={photo.map((p) => p.photo)}
               height="w-full h-[170px]  md:h-[300px]"
             />
           )}
@@ -63,12 +64,17 @@ export const ContentImagesDesktop = ({ photo }: Props) => {
         <div className="grid gap-2 col-span-3 md:col-span-1">
           {photo.length > 1 && (
             <ContentImg
-              source={photo[1].photo}
+              images={photo.map((p) => p.photo)}
+              initialIndex={1}
               height={`w-full ${photo.length > 2 ? "h-[145px]" : "h-[300px]"}`}
             />
           )}
           {photo.length > 2 && (
-            <ContentImg source={photo[2].photo} height=" w-full h-[145px]" />
+            <ContentImg
+              images={photo.map((p) => p.photo)}
+              initialIndex={2}
+              height=" w-full h-[145px]"
+            />
           )}
         </div>
       </div>
@@ -76,10 +82,11 @@ export const ContentImagesDesktop = ({ photo }: Props) => {
         <div>
           <ScrollArea className="w-[290px] md:w-[500px] lg:w-[700px] rounded-md  ">
             <div className="flex w-max space-x-2 py-4">
-              {photo.slice(3, photo.length).map((img) => (
+              {photo.slice(3, photo.length).map((img,index) => (
                 <figure key={img.id} className="shrink-0">
                   <ContentImg
-                    source={img.photo}
+                    images={photo.map((p) => p.photo)}
+                    initialIndex={index}
                     height="w-[200px]  h-[100px]"
                   />
                 </figure>

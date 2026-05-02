@@ -20,7 +20,6 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
   const [product_description, setProduct_description] = useState("");
   const [detail, setDetail] = useState("");
 
-
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
 
@@ -33,59 +32,51 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
   return (
     <>
       <section className="py-12 px-4 lg:px-8">
-        
         <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
-              <h4 className="text-3xl font-light">Repuestos</h4>
-              {
-                /**
-                <span className="text-muted-foreground">
-                  ({replacements.length} repuestos)
-                </span>
-                 */
-              }
-              
-            </div>
-            <div className="w-90 hidden lg:flex">
-              <SearchButton />
-            </div>
+          <div className="sticky top-[64px] z-10 bg-white p-[10px]">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-4">
+                <h4 className="text-2xl font-light">Repuestos</h4>
+              </div>
+              <div className="w-90 hidden lg:flex">
+                <SearchButton />
+              </div>
 
-            <div className="flex items-center space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden"
-              >
-                {/* <Filter className="h-4 w-4 mr-2" /> */}
-                Filtros
-              </Button>
+              <div className="flex items-center space-x-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="lg:hidden"
+                >
+                  {/* <Filter className="h-4 w-4 mr-2" /> */}
+                  Filtros
+                </Button>
 
-              <div className="hidden md:flex border rounded-md">
-                <Button
-                  variant={viewMode === "grid" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleViewModeChange("grid")}
-                  className="rounded-r-none"
-                >
-                  <IoMdGrid />
-                </Button>
-                <Button
-                  variant={viewMode === "list" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleViewModeChange("list")}
-                  className="rounded-l-none"
-                >
-                  <FaListUl />
-                </Button>
+                <div className="hidden md:flex border rounded-md">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => handleViewModeChange("grid")}
+                    className="rounded-r-none"
+                  >
+                    <IoMdGrid />
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => handleViewModeChange("list")}
+                    className="rounded-l-none"
+                  >
+                    <FaListUl />
+                  </Button>
+                </div>
               </div>
             </div>
-            
-          </div>
-          {/* Oculta Search Button para dispositivos con pantalla lg */}
-          <div className="mb-8 lg:hidden">
-            <SearchButton />
+            {/* Oculta Search Button para dispositivos con pantalla lg */}
+            <div className="mb-2 lg:hidden">
+              <SearchButton />
+            </div>
           </div>
 
           <div className="flex gap-8">
@@ -98,7 +89,7 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
             {showFilters && (
               <div
                 className="fixed inset-0 z-50 bg-black/60"
-                onClick={() => setShowFilters(false)} 
+                onClick={() => setShowFilters(false)}
               >
                 <div
                   className="fixed w-80 overflow-y-auto inset-0 z-50 bg-background pr-4 pl-4 lg:hidden"
@@ -111,7 +102,7 @@ export const ReplacementContent = ({ replacements, isloading }: Props) => {
                       size="sm"
                       onClick={() => setShowFilters(false)}
                     >
-                    <IoCloseOutline className="h-4 w-4" />
+                      <IoCloseOutline className="h-4 w-4" />
                     </Button>
                   </div>
                   <FilterSidebar replacement={true} type="sparepart" />
@@ -176,16 +167,17 @@ export const SearchButton = () => {
     setSearchInput(value);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
+      searchParams.delete("cursor");
       searchParams.set("search", value);
       setSearchParams(searchParams);
     }, 600);
   };
 
-  const handleClear = async ()=>{
+  const handleClear = async () => {
     setSearchInput("");
     searchParams.delete("search");
     setSearchParams(searchParams);
-  }
+  };
 
   return (
     <div className="flex w-full items-center space-x-2">
@@ -197,10 +189,12 @@ export const SearchButton = () => {
           onChange={handleSearchChanged}
           value={searchInput}
         />
-        {
-          searchInput.length > 0 && <IoCloseOutline className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer" onClick={handleClear}/>
-        }
-
+        {searchInput.length > 0 && (
+          <IoCloseOutline
+            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+            onClick={handleClear}
+          />
+        )}
       </div>
     </div>
   );

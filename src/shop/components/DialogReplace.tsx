@@ -13,9 +13,11 @@ import { useDetailReplacement } from "../hooks/useDetailReplacement";
 import { DetailReplacement } from "./DetailReplacement";
 import { useQuotesStore, type Article } from "../store/quotes.store";
 import { toast } from "react-toastify";
+import { DialogConfirm } from "./DialogConfirm";
+import { useState } from "react";
 interface Props {
   product_description: string;
-  detail:string,
+  detail: string;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -24,8 +26,10 @@ export const DialogReplace = ({
   open,
   setOpen,
   product_description,
-  detail
+  detail,
 }: Props) => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   const { data, isLoading } = useDetailReplacement();
   const { addArticle } = useQuotesStore();
   const { user } = useAuthStore();
@@ -37,7 +41,7 @@ export const DialogReplace = ({
     Codigo:${data?.data.product_code}
     Descripción: ${product_description}`;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-      message
+      message,
     )}`;
     window.open(url, "_blank");
   };
@@ -56,6 +60,7 @@ export const DialogReplace = ({
       position: "top-right",
       autoClose: 2000,
     });
+    setOpenDialog(false);
   };
 
   return (
@@ -91,7 +96,7 @@ export const DialogReplace = ({
               <Button
                 variant="outline"
                 className="cursor-pointer"
-                onClick={() => handleAddToQuotes()}
+                onClick={() => setOpenDialog(true)}
               >
                 Agregar a lista de cotizaciones
               </Button>
@@ -105,6 +110,7 @@ export const DialogReplace = ({
           )}
         </DialogContent>
       </Dialog>
+      <DialogConfirm open={openDialog} setOpen={setOpenDialog} handleaction={() => handleAddToQuotes()} />
     </div>
   );
 };

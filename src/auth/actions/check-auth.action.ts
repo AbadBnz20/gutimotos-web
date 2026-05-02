@@ -2,7 +2,6 @@ import { gutiMotors } from "@/api/GutiMotosAPI";
 import type { CheckAuth } from "../interfaces/check-auth.response";
 
 export const checkAuth = async (): Promise<CheckAuth> => {
-  console.log('update accesstoken')
   const refreshtoken = localStorage.getItem("token-refresh");
   if (!refreshtoken) throw new Error("No hay token en el storage");
   try {

@@ -5,6 +5,7 @@ import { authWithFirebase } from "../actions/authwithfirebase";
 import { login } from "../actions/login";
 import { checkAuth } from "../actions/check-auth.action";
 import { logout } from "../actions/logout.action";
+import { loginOTP } from "../actions/loginOtp";
 type AuthStatus = "authenticated" | "not-authenticated" | "checking";
 type AuthStore = {
   user: User | null;
@@ -12,6 +13,7 @@ type AuthStore = {
   refresh_token: string | null;
   authStatus: AuthStatus;
   login: () => Promise<boolean>;
+  loginOtp: (email: string, otp: string) => Promise<boolean>;
   logout: () => void;
   checkAuthStatus: () => Promise<boolean>;
 };
@@ -60,6 +62,46 @@ export const useAuthStore = create<AuthStore>()(
           return false;
         }
       },
+      loginOtp: async (email: string, otp: string) => {
+        try {
+          const auth = await loginOTP(email, otp);
+          if (!auth.success) {
+            set({
+              user: null,
+              access_token: null,
+              refresh_token: null,
+              authStatus: "not-authenticated",
+            });
+            return false;
+          }
+
+          localStorage.setItem("token-access", auth.access);
+          localStorage.setItem("token-refresh", auth.refresh);
+          set({
+            user: {
+              fullName: auth.user.email.split("@")[0],
+              email: auth.user.email,
+              photoURL:
+                "https://ui-avatars.com/api/?name=" +
+                auth.user.email.split("@")[0],
+            },
+            access_token: auth.access,
+            refresh_token: auth.refresh,
+            authStatus: "authenticated",
+          });
+          return true;
+        } catch (error) {
+          localStorage.removeItem("token-access");
+          localStorage.removeItem("token-refresh");
+          set({
+            user: null,
+            access_token: null,
+            refresh_token: null,
+            authStatus: "not-authenticated",
+          });
+          return false;
+        }
+      },
 
       logout: async () => {
         await logout();
@@ -80,7 +122,7 @@ export const useAuthStore = create<AuthStore>()(
             access_token: data.access,
             authStatus: "authenticated",
           });
-         localStorage.setItem("token-access", data.access);
+          localStorage.setItem("token-access", data.access);
           return true;
         } catch (error) {
           localStorage.removeItem("token-access");
@@ -100,6 +142,6 @@ export const useAuthStore = create<AuthStore>()(
       partialize: (state) => ({
         user: state.user,
       }),
-    }
-  )
+    },
+  ),
 );

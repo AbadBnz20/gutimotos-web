@@ -13,14 +13,18 @@ import { useAuthStore } from "@/auth/store/auth.store";
 import { ConentSkeleton } from "./ConentSkeleton";
 import { useQuotesStore, type Article } from "../store/quotes.store";
 import { toast } from "react-toastify";
+import { DialogConfirm } from "./DialogConfirm";
+import { useState } from "react";
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
 export const DialogProduct = ({ open, setOpen }: Props) => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   const { data, isLoading } = useDetail();
-     const {addArticle}=useQuotesStore()
+  const { addArticle } = useQuotesStore();
   const { user } = useAuthStore();
   const handleRedirectTowhatsapp = () => {
     const phoneNumber = "59167398260";
@@ -31,7 +35,7 @@ export const DialogProduct = ({ open, setOpen }: Props) => {
     Tipo:${data?.data.motorcycle_type_name}
     Color:${data?.data.color_name}`;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-      message
+      message,
     )}`;
     window.open(url, "_blank");
   };
@@ -48,7 +52,9 @@ export const DialogProduct = ({ open, setOpen }: Props) => {
     addArticle(newArticle);
     toast.success("Item agregado a la cotizacion", {
       position: "top-right",
-      autoClose: 3000});
+      autoClose: 3000,
+    });
+    setOpenDialog(false);
   };
   return (
     <div>
@@ -78,7 +84,7 @@ export const DialogProduct = ({ open, setOpen }: Props) => {
               <Button
                 variant="outline"
                 className="cursor-pointer"
-                onClick={() => handleAddToQuotes()}
+                onClick={() => setOpenDialog(true)}
               >
                 Agregar a lista de cotizaciones
               </Button>
@@ -92,6 +98,11 @@ export const DialogProduct = ({ open, setOpen }: Props) => {
           )}
         </DialogContent>
       </Dialog>
+      <DialogConfirm
+        open={openDialog}
+        setOpen={setOpenDialog}
+        handleaction={() => handleAddToQuotes()}
+      />
     </div>
   );
 };
