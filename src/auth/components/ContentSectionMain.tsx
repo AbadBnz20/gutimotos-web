@@ -12,7 +12,6 @@ export const ContentSectionMain = () => {
   return (
     <>
       <div className="flex flex-col  min-h-[350px]  justify-between">
-        
         {section === 1 && <ContentSectionfirst handleSection={handleSection} />}
         {section === 2 && <ContentSectionSecond email={email} handleEmail={handleEmail} handleSection={handleSection} />}
         {section === 3 && <ContentSectionThird email={email} />}
