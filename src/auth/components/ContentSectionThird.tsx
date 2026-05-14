@@ -36,22 +36,13 @@ export const ContentSectionThird = ({ email }: Props) => {
       
       <div className="flex flex-col items-center text-center">
         <CustomLogo />
-        <h2 className="text-sm text-muted-foreground">
-          En Tarija, somos tu concesionaria de confianza con las mejores marcas
-          de motocicletas, repuestos, piezas y accesorios. Contamos con soporte
-          y servicio técnico especializado para brindarte la mejor experiencia,{" "}
-          <span className="text-black">
-            nuestra prioridad es tu satisfacción
-          </span>
-          .
-        </h2>
       </div>
-      <div className="space-y-4 mb-6 flex flex-col items-center">
+      <div className="space-y-4 mb-6 flex flex-col items-center mt-3">
         <label
           htmlFor=""
           className="block text-sm font-medium text-gray-700 mb-2"
         >
-          Ingresar con codigo de acceso
+          Ingresa el código de acceso que le enviamos a su correo electrónico.
         </label>
         <ContentTimer/>
 
