@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CustomLogo } from "./CustomLogo";
 import { FaFacebookF, FaGoogle, FaInstagram, FaTiktok } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../store/auth.store";
 import { Spinner } from "@/components/ui/spinner";
@@ -42,36 +43,78 @@ export const ContentSectionfirst = ({ handleSection }: Props) => {
       <div className="flex flex-col items-center text-center">
         <CustomLogo />
 
-        <h2 className="text-sm text-muted-foreground">
-          En Tarija, somos tu concesionaria de confianza con las mejores marcas
-          de motocicletas, repuestos, piezas y accesorios. Contamos con soporte
-          y servicio técnico especializado para brindarte la mejor experiencia,{" "}
-          <span className="text-black">
-            nuestra prioridad es tu satisfacción
-          </span>
-          .
+        <h2 className="text-sm text-muted-foreground mt-3">
+          Explora catálogo de motos, repuestos y accesorios.
         </h2>
       </div>
 
-      <Button
-        onClick={handlelogin}
-        className="w-full cursor-pointer"
-        disabled={isposting}
-      >
-        <FaGoogle />
-        Ingresar con google
-      </Button>
-      <Button
-        variant="outline"
-        className="w-full cursor-pointer"
-        onClick={() => handleSection(2)}
-      >
-        <span className="">Ingreso rapido</span>
-      </Button>
+        <div className="space-y-4 sm:space-y-5">
+          <Button
+            onClick={handlelogin}
+            disabled={isposting}
+            className="
+              w-full
+              h-12
+              rounded-xl
+              font-medium
+              text-sm
+              sm:text-base
+              cursor-pointer
+              transition-all
+              duration-200
+              hover:scale-[1.01]
+              active:scale-[0.99]
+              flex
+              items-center
+              justify-center
+              gap-3
+              shadow-sm
+            "
+          >
+            <FaGoogle className="text-lg" />
+
+            <span>
+              {isposting
+                ? "Conectando..."
+                : "Continuar con Google"}
+            </span>
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => handleSection(2)}
+            className="
+              w-full
+              h-12
+              rounded-xl
+              font-medium
+              text-sm
+              sm:text-base
+              cursor-pointer
+              transition-all
+              duration-200
+              hover:border-red-500
+              hover:text-red-600
+              active:scale-[0.99]
+              flex
+              items-center
+              justify-center
+              gap-3
+            "
+          >
+            <MdEmail className="text-lg" />
+
+            <span>
+              Continuar con correo
+            </span>
+          </Button>
+      </div>
+
+        
       <div>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
-            nuestras redes
+            Nuestras redes sociales
           </span>
         </div>
         <div className="grid grid-cols-3 gap-4 mt-5">

@@ -36,17 +36,8 @@ export const ContentSectionSecond = ({
     <div>
       <div className="flex flex-col items-center text-center">
         <CustomLogo />
-        <h2 className="text-sm text-muted-foreground">
-          En Tarija, somos tu concesionaria de confianza con las mejores marcas
-          de motocicletas, repuestos, piezas y accesorios. Contamos con soporte
-          y servicio técnico especializado para brindarte la mejor experiencia,{" "}
-          <span className="text-black">
-            nuestra prioridad es tu satisfacción
-          </span>
-          .
-        </h2>
       </div>
-      <div className="space-y-4 mb-6">
+      <div className="space-y-4 mt-5">
         <label
           htmlFor=""
           className="block text-sm font-medium text-gray-700 mb-2"
@@ -63,7 +54,7 @@ export const ContentSectionSecond = ({
           disabled={isposting || email.trim() === ""}
           onClick={() => handleOtpRequest()}
         >
-          Enviar codigo
+          Solicitar código de acceso
         </Button>
       </div>
     </div>
